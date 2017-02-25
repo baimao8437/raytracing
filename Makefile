@@ -15,7 +15,7 @@ LDFLAGS = \
 	-lm
 
 ifeq ($(strip $(PROFILE)),1)
-PROF_FLAGS = -pg
+PROF_FLAGS = -no-pie -pg
 CFLAGS += $(PROF_FLAGS)
 LDFLAGS += $(PROF_FLAGS) 
 endif
