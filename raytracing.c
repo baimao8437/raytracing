@@ -6,7 +6,7 @@
 #include "raytracing.h"
 #include "idx_stack.h"
 
-#define MAX_REFLECTION_BOUNCES	3
+#define MAX_REFLECTION_BOUNCES  3
 #define MAX_DISTANCE 1000000000000.0
 #define MIN_DISTANCE 0.00001
 #define SAMPLES 4
@@ -118,7 +118,7 @@ static int rayRectangularIntersection(const point3 ray_e,
         return 0;
 
     COPY_POINT3(ip->normal, rec->normal);
-    if (dot_product(ip->normal, ray_d)>0.0)
+    if (dot_product(ip->normal, ray_d) > 0.0)
         multiply_vector(ip->normal, -1, ip->normal);
     multiply_vector(ray_d, *t1, ip->point);
     add_vector(ray_e, ip->point, ip->point);
@@ -148,7 +148,7 @@ static void localColor(color local_color,
     multiply_vector(spec, specular, spec);
 
     COPY_COLOR(surface, fill->fill_color);
-    multiply_vectors(ambi,surface, ambi);
+    multiply_vectors(ambi, surface, ambi);
     add_vector(diff, ambi, diff);
     add_vector(diff, spec, diff);
     add_vector(local_color, diff, local_color);
@@ -205,7 +205,7 @@ static void refraction(point3 t, const point3 I, const point3 N,
                        double n1, double n2)
 {
     double eta = n1 / n2;
-    double dot_NI = dot_product(N,I);
+    double dot_NI = dot_product(N, I);
     double k = 1.0 - eta * eta * (1.0 - dot_NI * dot_NI);
     if (k < 0.0 || n2 <= 0.0)
         t[0] = t[1] = t[2] = 0.0;
@@ -364,8 +364,8 @@ static unsigned int ray_color(const point3 e, double t,
     }
 
     /* check for intersection with a sphere or a rectangular */
-    intersection ip= ray_hit_object(e, d, t, MAX_DISTANCE, rectangulars,
-                                    &hit_rec, spheres, &hit_sphere);
+    intersection ip = ray_hit_object(e, d, t, MAX_DISTANCE, rectangulars,
+                                     &hit_rec, spheres, &hit_sphere);
     if (!hit_rec && !hit_sphere)
         return 0;
 
@@ -438,7 +438,7 @@ static unsigned int ray_color(const point3 e, double t,
     if ((length(rr) > 0.0) && (fill.T > 0.0) &&
             (fill.index_of_refraction > 0.0)) {
         normalize(rr);
-        if (ray_color(ip.point, MIN_DISTANCE, rr, stk,rectangulars, spheres,
+        if (ray_color(ip.point, MIN_DISTANCE, rr, stk, rectangulars, spheres,
                       lights, refraction_part,
                       bounces_left - 1)) {
             multiply_vector(refraction_part, (1 - R) * fill.T,
